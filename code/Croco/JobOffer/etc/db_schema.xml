@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <!-- croco_department table -->
+    <table name="croco_department" resource="default" engine="innodb" comment="Department Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Department ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Department Name"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Department Description"/>
+
+        <!-- Define the primary key for croco_department -->
+        <constraint xsi:type="primary" referenceId="PK_CROCO_DEPARTMENT">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <!-- croco_job table -->
+    <table name="croco_job" resource="default" engine="innodb" comment="Job Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Job ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Job Title"/>
+        <column xsi:type="varchar" name="type" nullable="false" length="255" comment="Job Type"/>
+        <column xsi:type="varchar" name="location" nullable="false" length="255" comment="Job Location"/>
+        <column xsi:type="date" name="date" nullable="false" comment="Job Start Date"/>
+        <column xsi:type="tinyint" name="status" unsigned="true" nullable="false" default="0" comment="Job Status"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Job Description"/>
+        <column xsi:type="int" name="department_id" unsigned="true" nullable="false" comment="Linked Department ID"/>
+
+        <!-- Define the primary key for croco_job -->
+        <constraint xsi:type="primary" referenceId="PK_CROCO_JOB">
+            <column name="entity_id"/>
+        </constraint>
+
+        <!-- Define the foreign key to link with croco_department table -->
+        <constraint xsi:type="foreign" referenceId="FK_CROCO_JOB_DEPARTMENT_ID" table="croco_job" column="department_id"
+                    referenceTable="croco_department" referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+
+    <!-- job_images table -->
+    <table name="job_images" resource="default" engine="innodb" comment="Job Images Table">
+        <column xsi:type="int" name="image_id" unsigned="true" nullable="false" identity="true" comment="Image ID"/>
+        <column xsi:type="int" name="job_id" unsigned="true" nullable="false" comment="Job ID"/>
+        <column xsi:type="varchar" name="image_path" nullable="false" length="255" comment="Image Path"/>
+        <column xsi:type="varchar" name="image_alt_text" nullable="true" length="255" comment="Image Alt Text"/>
+
+        <!-- Define the primary key for job_images -->
+        <constraint xsi:type="primary" referenceId="PK_JOB_IMAGES">
+            <column name="image_id"/>
+        </constraint>
+
+        <!-- Define the foreign key to link with croco_job table -->
+        <constraint xsi:type="foreign" referenceId="FK_JOB_IMAGES_JOB_ID" table="job_images" column="job_id"
+                    referenceTable="croco_job" referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+
+    <!-- tags table definition -->
+    <table name="tags" resource="default" engine="innodb" comment="Tags Table">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="Tag ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Tag Name"/>
+
+        <!-- Define the primary key for the tags table -->
+        <constraint xsi:type="primary" referenceId="PK_TAGS">
+            <column name="id"/>
+        </constraint>
+    </table>
+
+    <!-- croco_job_tags table (pivot table for many-to-many relation) -->
+    <table name="croco_job_tags" resource="default" engine="innodb" comment="Job-Tag Relationship Table">
+        <column xsi:type="int" name="job_id" unsigned="true" nullable="false" comment="Job ID"/>
+        <column xsi:type="int" name="tag_id" unsigned="true" nullable="false" comment="Tag ID"/>
+
+        <!-- Define the primary key for the pivot table (combination of job_id and tag_id) -->
+        <constraint xsi:type="primary" referenceId="PK_CROCO_JOB_TAGS">
+            <column name="job_id"/>
+            <column name="tag_id"/>
+        </constraint>
+
+        <!-- Define the foreign key to link with the croco_job table -->
+        <constraint xsi:type="foreign" referenceId="FK_CROCO_JOB_TAGS_JOB_ID" table="croco_job_tags" column="job_id"
+                    referenceTable="croco_job" referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <!-- Define the foreign key to link with the tags table -->
+        <constraint xsi:type="foreign" referenceId="FK_CROCO_JOB_TAGS_TAG_ID" table="croco_job_tags" column="tag_id"
+                    referenceTable="tags" referenceColumn="id" onDelete="CASCADE"/>
+    </table>
+
+</schema>
