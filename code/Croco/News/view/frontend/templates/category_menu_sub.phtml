@@ -1,0 +1,10 @@
+<ul class="subcategory-menu">
+    <?php foreach ($subCategory['children'] as $subSubCategory): ?>
+        <li>
+            <a href="<?= $subSubCategory['url'] ?>"><?= $subSubCategory['name'] ?></a>
+            <?php if (!empty($subSubCategory['children'])): ?>
+                <?php include 'category_menu_sub.phtml'; ?>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+</ul>

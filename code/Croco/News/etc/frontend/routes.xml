@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- app/code/Croco/News/etc/frontend/routes.xml -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="news" frontName="news">
+            <module name="Croco_News" />
+        </route>
+    </router>
+</config>

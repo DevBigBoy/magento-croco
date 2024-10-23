@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Bind CategoryTreeInterface to CategoryTree model -->
+    <preference for="Croco\News\Api\CategoryTreeInterface" type="Croco\News\Model\CategoryTree"/>
+
+    <!-- Bind CategoryTreeInterface Data to CategoryTree Data model -->
+    <preference for="Croco\News\Api\Data\CategoryTreeInterface" type="Croco\News\Model\Data\CategoryTree"/>
+
+</config>

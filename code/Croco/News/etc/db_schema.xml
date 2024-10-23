@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!-- app/code/Croco/News/etc/db_schema.xml -->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <!-- Category Table -->
+    <table name="croco_news_category" resource="default" engine="innodb" comment="Croco News Categories">
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="false" identity="true" comment="Category ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Category Name"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Category Description"/>
+        <column xsi:type="int" name="parent_id" unsigned="true" nullable="true" comment="Parent Category ID"/>
+        <column xsi:type="int" name="position" nullable="false" default="0" comment="Position"/>
+
+        <!-- Constraints -->
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="category_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="CROCO_NEWS_CATEGORY_PARENT_ID" table="croco_news_category" column="parent_id"
+                    referenceTable="croco_news_category" referenceColumn="category_id" onDelete="CASCADE"/>
+
+        <!-- Indexes -->
+        <index referenceId="CATEGORY_PARENT_ID_IDX">
+            <column name="parent_id"/>
+        </index>
+        <index referenceId="CATEGORY_NAME_IDX">
+            <column name="name"/>
+        </index>
+    </table>
+
+    <!-- Post Table -->
+    <table name="croco_news_post" resource="default" engine="innodb" comment="Croco News Posts">
+        <column xsi:type="int" name="post_id" unsigned="true" nullable="false" identity="true" comment="Post ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Post Title"/>
+        <column xsi:type="text" name="short_description" nullable="true" comment="Post Short Description"/>
+        <column xsi:type="text" name="body" nullable="false" comment="Post Body"/>
+        <column xsi:type="varchar" name="image" nullable="true" length="255" comment="Post Image"/>
+
+        <!-- Constraints -->
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="post_id"/>
+        </constraint>
+
+        <!-- Indexes -->
+        <index referenceId="POST_TITLE_IDX">
+            <column name="title"/>
+        </index>
+    </table>
+
+    <!-- Many-to-Many Relation Table -->
+    <table name="croco_news_post_category" resource="default" engine="innodb" comment="Post to Category Relation">
+        <column xsi:type="int" name="post_id" unsigned="true" nullable="false" comment="Post ID"/>
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="false" comment="Category ID"/>
+
+        <!-- Constraints -->
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="post_id"/>
+            <column name="category_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="FK_POST_CATEGORY_POST_ID" table="croco_news_post_category" column="post_id"
+                    referenceTable="croco_news_post" referenceColumn="post_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="FK_POST_CATEGORY_CATEGORY_ID" table="croco_news_post_category" column="category_id"
+                    referenceTable="croco_news_category" referenceColumn="category_id" onDelete="CASCADE"/>
+
+        <!-- Indexes -->
+        <index referenceId="POST_ID_IDX">
+            <column name="post_id"/>
+        </index>
+        <index referenceId="CATEGORY_ID_IDX">
+            <column name="category_id"/>
+        </index>
+    </table>
+</schema>

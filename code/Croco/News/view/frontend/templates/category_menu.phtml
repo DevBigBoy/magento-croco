@@ -1,0 +1,27 @@
+<?php
+$categories = $block->getCategoryTree(); // Get the category tree recursively
+dd($categories);
+?>
+
+<nav class="news-category-menu">
+    <ul class="category-menu-root">
+        <?php foreach ($categories as $category): ?>
+            <li>
+                <a href="<?= $category['url'] ?>"><?= $category['name'] ?></a>
+                <?php if (!empty($category['children'])): ?>
+                    <ul class="subcategory-menu">
+                        <?php foreach ($category['children'] as $subCategory): ?>
+                            <li>
+                                <a href="<?= $subCategory['url'] ?>"><?= $subCategory['name'] ?></a>
+                                <?php if (!empty($subCategory['children'])): ?>
+                                    <!-- Render further subcategories recursively -->
+                                    <?php include 'category_menu_sub.phtml'; ?>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</nav>
