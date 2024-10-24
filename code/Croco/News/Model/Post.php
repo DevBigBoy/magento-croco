@@ -6,6 +6,12 @@ use Magento\Framework\Model\AbstractModel;
 
 class Post extends AbstractModel implements PostInterface
 {
+    const POST_ID = 'post_id'; // Primary key
+    const TITLE = 'title'; // Title field
+    const SHORT_DESCRIPTION = 'short_description'; // Short description field
+    const BODY = 'body'; // Body field
+    const IMAGE = 'image'; // Image field
+
     protected function _construct()
     {
         $this->_init(\Croco\News\Model\ResourceModel\Post::class);

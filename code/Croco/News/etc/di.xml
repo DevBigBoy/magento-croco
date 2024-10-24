@@ -8,4 +8,14 @@
     <!-- Bind CategoryTreeInterface Data to CategoryTree Data model -->
     <preference for="Croco\News\Api\Data\CategoryTreeInterface" type="Croco\News\Model\Data\CategoryTree"/>
 
+    <!-- Bind the service interface to its implementation -->
+    <preference for="Croco\News\Api\PostManagementInterface" type="Croco\News\Model\PostManagement"/>
+
+    <!-- Bind the Post data interface to its implementation -->
+    <preference for="Croco\News\Api\Data\PostInterface" type="Croco\News\Model\Data\Post"/>
+
+
+<!--    <preferenceerence for="Croco\News\Api\PostManagementInterface" type="Croco\News\Model\PostManagement"/>-->
+
+
 </config>

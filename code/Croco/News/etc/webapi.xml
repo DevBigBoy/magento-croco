@@ -1,9 +1,22 @@
 <?xml version="1.0"?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi/etc/webapi.xsd">
+    <!-- Route to fetch category tree -->
     <route url="/V1/news/categories" method="GET">
         <service class="Croco\News\Api\CategoryTreeInterface" method="getCategoryTree"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>
+    </route>
+
+    <!-- Route to fetch posts by category ID and its children -->
+    <route url="/V1/news/posts/category/:categoryId" method="GET">
+        <service class="Croco\News\Api\PostManagementInterface" method="getPostsByCategory"/>
+        <resources>
+            <resource ref="anonymous"/> <!-- You can replace this with the correct ACL if necessary -->
+        </resources>
+        <data>
+            <!-- No xsi:type necessary, let Magento handle the type casting -->
+            <parameter name="categoryId" />
+        </data>
     </route>
 </routes>
